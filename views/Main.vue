@@ -1,16 +1,24 @@
 <template>
     <el-container class="h-full">
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="auto">
+            <Aside></Aside>
+        </el-aside>
         <el-container>
             <el-header>Header</el-header>
-            <el-main>Main</el-main>
+            <el-main>
+                <router-view></router-view>
+            </el-main>
         </el-container>
     </el-container>
 </template>
 
 <script>
+import Aside from '@/components/Aside.vue'
 export default {
-    name: 'Home',
+    name: 'Main',
+    components: {
+        Aside
+    },
     data() {
         return {
             msg: 'This is Home Page'
@@ -26,13 +34,6 @@ export default {
         color: @colorPrimary;
         text-align: center;
         line-height: 60px;
-    }
-    
-    .el-aside {
-        background-color: @colorPrimary;
-        color: #fff;
-        text-align: center;
-        line-height: 200px;
     }
     
     .el-main {

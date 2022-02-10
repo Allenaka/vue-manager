@@ -27,13 +27,13 @@
 </template>
 
 <script>
+import bus from '@/assets/js/utils/bus.js'
 export default {
-    created() {
-        console.log(this.$route.path)
+    props: {
+        isCollapse: Boolean,
     },
     data() {
       return {
-        isCollapse: false,
         data: [
             {
                 path: '/home',
@@ -75,6 +75,9 @@ export default {
         ]
       };
     },
+    mounted() {
+        bus.$emit('getCurrentPage', this.currentPageRoute)
+    },
     computed: {
         hasChildMenu() {
             return this.data.filter(item => item.children)
@@ -82,6 +85,15 @@ export default {
         noChildMenu() {
             return this.data.filter(item => !item.children)
         },
+        currentPageRoute() {
+            return this.data.find(item => item.path === this.$route.path)
+        }
+    },
+    watch: {
+        $route (val) {
+            let data = this.data.find(item => item.path === val.path)
+            bus.$emit('getCurrentPage', data)
+        }
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -90,22 +102,16 @@ export default {
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
-      clickMenu(item) {
-          this.$router.push({
-              path: item.path
-          })
-      },
-      activeIndex() {
-          this.$router
-      }
     }
 };
 </script>
 
 <style lang="less" scoped>
+    .el-menu-vertical-demo {
+        height: 100%;
+    }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 200px;
-        height: 100%;
     }
     i {
         color: @textColorLight;

@@ -1,10 +1,12 @@
 <template>
     <el-container class="h-full">
         <el-aside width="auto">
-            <Aside></Aside>
+            <Aside :isCollapse="isCollapse"></Aside>
         </el-aside>
         <el-container>
-            <el-header>Header</el-header>
+            <el-header>
+                <Header></Header>
+            </el-header>
             <el-main>
                 <router-view></router-view>
             </el-main>
@@ -14,14 +16,24 @@
 
 <script>
 import Aside from '@/components/Aside.vue'
+import Header from '@/components/Header.vue'
+import bus from '@/assets/js/utils/bus.js'
 export default {
     name: 'Main',
     components: {
-        Aside
+        Aside,
+        Header
+    },
+    created() {
+        bus.$emit('collapseChanged', this.isCollapse);
+        bus.$on('collapseChanged', val => {
+            this.isCollapse = val;
+        })
     },
     data() {
         return {
-            msg: 'This is Home Page'
+            msg: 'This is Home Page',
+            isCollapse: false,
         }
     }
 }
@@ -32,7 +44,6 @@ export default {
     .el-header {
         background-color: @colorDefault;
         color: @colorPrimary;
-        text-align: center;
         line-height: 60px;
     }
     

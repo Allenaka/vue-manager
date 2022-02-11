@@ -1,33 +1,54 @@
 <template>
     <header>
-        <div>
-            <el-button plain icon="el-icon-menu" circle @click="toggleCollapse"></el-button>
+        <div class="left">
+            <el-button plain icon="el-icon-menu" circle @click="handleCollapse"></el-button>
             <span>{{pageName}}</span>
+        </div>
+        <div class="right">
+            <el-dropdown>
+                <div id="photo">
+                    <img :src="userAvater" alt="photo">
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item @click.native="jump('/center')">个人中心</el-dropdown-item>
+                    <el-dropdown-item divided>退出</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </div>
     </header>
 </template>
 
 <script>
-    import bus from "@/assets/js/utils/bus.js";
+    // import bus from "@/assets/js/utils/bus.js";
     export default {
         created() {
-            bus.$on('collapseChanged', (val) => {
-                this.isCollapse = val;
-            })
-            bus.$on('getCurrentPage', (data) => {
-                this.pageName = data.label;
-            })
+            // bus.$on('collapseChanged', (val) => {
+            //     this.isCollapse = val;
+            // })
+            // bus.$on('getCurrentPage', (data) => {
+            //     this.pageName = data.label;
+            // })
         },
         data() {
             return {
-                isCollapse: false,
-                pageName: ''
+                // isCollapse: false,
+                // pageName: ''
+                userAvater: require('assets/img/photo.png')
+            }
+        },
+        computed: {
+            pageName() {
+                return this.$store.state.tab.currentPath.label;
             }
         },
         methods: {
-            toggleCollapse() {
-                this.isCollapse = !this.isCollapse;
-                bus.$emit('collapseChanged', this.isCollapse);
+            handleCollapse() {
+                // this.isCollapse = !this.isCollapse;
+                this.$store.commit('toggleCollapse');
+                // bus.$emit('collapseChanged', this.isCollapse);
+            },
+            jump(path) {
+                this.$router.push({path})
             }
         }
     }
@@ -51,7 +72,16 @@
     .el-button + span {
         font-weight: 600;
     }
-    header {
-        padding: 0 15px;
+    #photo img {
+        width: 100%;
+    }
+    #photo {
+        margin: 10px 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        background-color: #ccc;
+        overflow: hidden;
+        cursor: pointer;
     }
 </style>

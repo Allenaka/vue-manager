@@ -16,8 +16,8 @@ const routes = [
                 component:() => import('../views/home')
             },
             {
-                path: '/mall',
-                component: () => import('../views/Product.vue')
+                path: '/article',
+                component: () => import('../views/Article.vue')
             },
             {
                 path: '/404',
@@ -27,9 +27,22 @@ const routes = [
             {
                 path: '/user',
                 component: () => import('../views/User.vue')
+            },
+            {
+                path: '/category',
+                component: () => import('../views/Category.vue')
+            },
+            {
+                path: '/tag',
+                component: () => import('../views/Tag.vue')
             }
         ],
         redirect: '/home'
+    },
+    {
+        path: '/center',
+        name: 'center',
+        component: () => import('views/Center.vue')
     },
     {
         path: '*',

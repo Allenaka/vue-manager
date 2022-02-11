@@ -3,10 +3,25 @@
 @colorDefault: #fff;
 @colorPrimary: #FFD31C;
 @colorPrimaryHover: #FFDB30;
-* {
+html,body {
     margin: 0;
     padding: 0;
 }
 .h-full {
     height: 100%;    
+}
+.el-dropdown-menu__item:hover {
+    background-color: @colorPrimaryHover;
+    color: #fff;
+}
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+.clearfix::after {
+    content: '';
+    display: block;
+    clear: both;
 }

@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import bus from '@/assets/js/utils/bus.js'
+// import bus from '@/assets/js/utils/bus.js'
 export default {
-    props: {
-        isCollapse: Boolean,
-    },
+    // props: {
+    //     isCollapse: Boolean,
+    // },
     data() {
       return {
         data: [
@@ -42,11 +42,23 @@ export default {
                 icon: 's-home',
                 url: 'Home/Home'
             }, {
-                path: '/mall',
-                name: 'mall',
-                label: '商品管理',
+                path: '/article',
+                name: 'article',
+                label: '文章管理',
                 icon: 'video-play',
-                url: 'MallManage/MallManage'
+                url: 'ArticleManage/ArticleManage'
+            }, {
+                path: '/category',
+                name: 'category',
+                label: '分类管理',
+                icon: 'video-play',
+                url: 'CategoryManage/CategoryManage'
+            }, {
+                path: '/tag',
+                name: 'tag',
+                label: '标签管理',
+                icon: 'video-play',
+                url: 'TagManage/TagManage'
             }, {
                 path: '/user',
                 name: 'user',
@@ -75,8 +87,11 @@ export default {
         ]
       };
     },
+    created() {
+        this.$store.commit('setCurrentPath', this.currentPageRoute)
+    },
     mounted() {
-        bus.$emit('getCurrentPage', this.currentPageRoute)
+        // bus.$emit('getCurrentPage', this.currentPageRoute)
     },
     computed: {
         hasChildMenu() {
@@ -87,12 +102,15 @@ export default {
         },
         currentPageRoute() {
             return this.data.find(item => item.path === this.$route.path)
+        },
+        isCollapse() {
+            return this.$store.state.tab.isCollapse
         }
     },
     watch: {
-        $route (val) {
-            let data = this.data.find(item => item.path === val.path)
-            bus.$emit('getCurrentPage', data)
+        $route (newRoute) {
+            let result = this.data.find(item => item.path === newRoute.path);
+            result && this.$store.commit('setCurrentPath', result)
         }
     },
     methods: {

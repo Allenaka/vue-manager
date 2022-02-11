@@ -1,7 +1,7 @@
 <template>
     <el-container class="h-full">
         <el-aside width="auto">
-            <Aside :isCollapse="isCollapse"></Aside>
+            <Aside></Aside>
         </el-aside>
         <el-container>
             <el-header>
@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             msg: 'This is Home Page',
-            isCollapse: false,
+            // isCollapse: false,
         }
     }
 }
@@ -50,7 +50,5 @@ export default {
     .el-main {
         background-color: #E9EEF3;
         color: #333;
-        text-align: center;
-        line-height: 160px;
     }
 </style>

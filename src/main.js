@@ -3,12 +3,15 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 
-// import axios from 'axios'
 import router from '../router'
 import store from '/store'
-Vue.use(ElementUI)
-// Vue.use(axios)
+import server from 'assets/js/utils/axios.js'
+import base from 'assets/js/base.js'
 
+Vue.use(base)
+Vue.use(ElementUI)
+
+Vue.prototype.$server = server
 Vue.config.productionTip = false
 
 new Vue({

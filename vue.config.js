@@ -12,5 +12,16 @@ module.exports = {
       .set('components', path.resolve(__dirname, 'src/components'))
       .set('assets', path.resolve(__dirname, 'src/assets'))
       .set('views', path.resolve(__dirname, 'views'))
+  },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   }
 }

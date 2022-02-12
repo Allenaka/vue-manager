@@ -34,74 +34,24 @@ export default {
     // },
     data() {
       return {
-        data: [
-            {
-                path: '/home',
-                name: 'home',
-                label: '首页',
-                icon: 's-home',
-                url: 'Home/Home'
-            }, {
-                path: '/article',
-                name: 'article',
-                label: '文章管理',
-                icon: 'video-play',
-                url: 'ArticleManage/ArticleManage'
-            }, {
-                path: '/category',
-                name: 'category',
-                label: '分类管理',
-                icon: 'video-play',
-                url: 'CategoryManage/CategoryManage'
-            }, {
-                path: '/tag',
-                name: 'tag',
-                label: '标签管理',
-                icon: 'video-play',
-                url: 'TagManage/TagManage'
-            }, {
-                path: '/user',
-                name: 'user',
-                label: '用户管理',
-                icon: 'user',
-                url: 'UserManage/UserManage'
-            }, {
-                label: '其他',
-                icon: 'location',
-                children: [
-                    {
-                        path: '/page1',
-                        name: 'page1',
-                        label: '页面1',
-                        icon: 'setting',
-                        url: 'Other/PageOne'
-                    }, {
-                        path: '/page2',
-                        name: 'page2',
-                        label: '页面2',
-                        icon: 'setting',
-                        url: 'Other/PageTwo'
-                    }
-                ]
-            }
-        ]
+        menuList: []
       };
     },
     created() {
-        this.$store.commit('setCurrentPath', this.currentPageRoute)
+        this.requestMenuList();
     },
     mounted() {
         // bus.$emit('getCurrentPage', this.currentPageRoute)
     },
     computed: {
         hasChildMenu() {
-            return this.data.filter(item => item.children)
+            return this.menuList.filter(item => item.children)
         },
         noChildMenu() {
-            return this.data.filter(item => !item.children)
+            return this.menuList.filter(item => !item.children)
         },
         currentPageRoute() {
-            return this.data.find(item => item.path === this.$route.path)
+            return this.menuList.find(item => item.path === this.$route.path)
         },
         isCollapse() {
             return this.$store.state.tab.isCollapse
@@ -109,7 +59,7 @@ export default {
     },
     watch: {
         $route (newRoute) {
-            let result = this.data.find(item => item.path === newRoute.path);
+            let result = this.menuList.find(item => item.path === newRoute.path);
             result && this.$store.commit('setCurrentPath', result)
         }
     },
@@ -120,6 +70,17 @@ export default {
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       },
+      requestMenuList() {
+        this.$server.get('/navMenu')
+            .then(
+                res => {
+                    if(res.status === 200) {
+                        this.menuList = res.data.data;
+                        this.$store.commit('setCurrentPath', this.currentPageRoute)
+                    }
+                }
+            )
+      }
     }
 };
 </script>

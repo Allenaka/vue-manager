@@ -20,6 +20,7 @@
 
 <script>
     // import bus from "@/assets/js/utils/bus.js";
+    import {mapState} from 'vuex'
     export default {
         created() {
             // bus.$on('collapseChanged', (val) => {
@@ -37,9 +38,14 @@
             }
         },
         computed: {
-            pageName() {
-                return this.$store.state.tab.currentPath.label;
-            }
+            ...mapState({
+                pageName: state => {
+                    return state.tab.currentPath.label
+                }
+            })
+            // pageName() {
+            //     return this.$store.state.tab.currentPath.label
+            // }
         },
         methods: {
             handleCollapse() {
@@ -47,9 +53,6 @@
                 this.$store.commit('toggleCollapse');
                 // bus.$emit('collapseChanged', this.isCollapse);
             },
-            jump(path) {
-                this.$router.push({path})
-            }
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    :default-active="$route.path"
+    :default-active="activeIndex"
     class="el-menu-vertical-demo"
     @open="handleOpen"
     @close="handleClose"
@@ -40,9 +40,6 @@ export default {
     created() {
         this.requestMenuList();
     },
-    mounted() {
-        // bus.$emit('getCurrentPage', this.currentPageRoute)
-    },
     computed: {
         hasChildMenu() {
             return this.menuList.filter(item => item.children)
@@ -51,10 +48,14 @@ export default {
             return this.menuList.filter(item => !item.children)
         },
         currentPageRoute() {
-            return this.menuList.find(item => item.path === this.$route.path)
+            return this.menuList.find(item => item.path === this.activeIndex)
         },
         isCollapse() {
             return this.$store.state.tab.isCollapse
+        },
+        activeIndex() {
+            let result = this.$route.path.match(/\/[^/]*/g)[0]
+            return result;
         }
     },
     watch: {

@@ -17,7 +17,22 @@ const routes = [
             },
             {
                 path: '/article',
-                component: () => import('../views/Article.vue')
+                component: () => import('../views/article'),
+                children: [
+                    {
+                        path: '/article/new',
+                        component: () => import('views/article/AddArticle.vue')
+                    },
+                    {
+                        path: '/article/edit',
+                        component: () => import('views/article/EditArticle.vue')
+                    },
+                    {
+                        path: '/article/list',
+                        component: () => import('views/article/List.vue')
+                    }
+                ],
+                redirect: '/article/list'
             },
             {
                 path: '/404',
@@ -43,6 +58,16 @@ const routes = [
         path: '/center',
         name: 'center',
         component: () => import('views/Center.vue')
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('views/Login.vue')
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import('views/Register.vue')
     },
     {
         path: '*',

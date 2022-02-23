@@ -10,7 +10,7 @@
       >
     </div>
     <el-table :data="articleList" border style="width: 100%">
-      <el-table-column fixed prop="id" label="ID"> </el-table-column>
+      <el-table-column fixed prop="_id" label="ID"> </el-table-column>
       <el-table-column prop="title" label="标题"> </el-table-column>
       <el-table-column prop="author" label="作者"> </el-table-column>
       <el-table-column prop="category" label="分类"> </el-table-column>
@@ -25,8 +25,8 @@
           >
         </template>
       </el-table-column>
-      <el-table-column prop="create_at" label="创建时间"> </el-table-column>
-      <el-table-column prop="last_modify_at" label="最后修改时间">
+      <el-table-column prop="created_at" label="创建时间"> </el-table-column>
+      <el-table-column prop="last_modified_at" label="最后修改时间">
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="150">
         <template slot-scope="scope">
@@ -34,7 +34,7 @@
             >查看</el-button
           >
           <el-button type="text" size="small">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button type="text" size="small" @click="handleDelete(scope.row._id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import {articleListData, deleteArticle} from '../../api/data.js'
 export default {
   data() {
     return {
@@ -49,15 +50,36 @@ export default {
     };
   },
   created() {
-    this.$server
-      .get("/article/list")
-      .then((res) => {
-        if (res.status === 200) {
-          this.articleList = res.data;
+    this.requestArticleList()
+  },
+  methods: {
+    requestArticleList() {
+      articleListData()
+        .then((res) => {
+          if (res.status === 200) {
+            this.articleList = res.data;
+          }
+        }).catch((err) => console.error(err));
+    },
+    handleDelete(id) {
+      deleteArticle({
+        data: {
+          id
         }
       })
-      .catch((err) => console.error(err));
-  },
+      .then(
+        res => {
+          console.log(res)
+          this.requestArticleList();
+          this.$message.success('删除成功')
+        }
+      )
+      .catch(err => {
+        console.log('handleDelete', err)
+        this.$message.error('删除失败')
+      })
+    }
+  }
 };
 </script>
 

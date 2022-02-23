@@ -5,11 +5,14 @@
       <el-button type="primary" size="small" @click="submitForm('form')">发 布</el-button>
     </div>
     <el-form :inline="true" ref="form" :model="form" :rules="formRules">
-      <el-form-item label="标题" prop="article_title">
-        <el-input v-model="form.article_title"></el-input>
+      <el-form-item label="标题" prop="title">
+        <el-input v-model="form.title"></el-input>
       </el-form-item>
-      <el-form-item label="分类" prop="article_category">
-        <el-select v-model="form.article_category">
+      <el-form-item label="分类" prop="category">
+        <el-select v-model="form.category">
+          <el-option label="category1" value="1"></el-option>
+          <el-option label="category2" value="2"></el-option>
+          <el-option label="category3" value="3"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="标签" prop="tag">
@@ -19,16 +22,17 @@
           </template>
         </el-input>
         <div id="tagListArea">
-          <el-tag closable v-for="item in form.article_tags" :key="item" @close="removeTag(tag)">{{item}}</el-tag>
+          <el-tag closable v-for="item in form.tags" :key="item" @close="removeTag(tag)">{{item}}</el-tag>
         </div>
       </el-form-item>
     </el-form>
-    <tinymce-editor></tinymce-editor>
+    <TinymceEditor v-model="articleContent"></TinymceEditor>
   </el-card>
 </template>
 
 <script>
 import TinymceEditor from "components/TinymceEditor.vue";
+import {newArticle} from '../../api/data'
 export default {
   components: {
     TinymceEditor,
@@ -37,19 +41,22 @@ export default {
     return {
       tag: '',
       form: {
-        article_title: '',
-        article_category: '',
-        article_tags: [],
+        title: '',
+        category: '',
+        tags: [],
+        content: '',
+        created_at: '',
+        last_modified_at: ''
       },
       formRules: {
-        article_title: [
+        title: [
           {
             required: true,
             message: "此项为必填项",
             trigger: "blur",
           },
         ],
-        article_category: [
+        category: [
           {
             required: true,
             message: "此项为必填项",
@@ -57,13 +64,23 @@ export default {
           },
         ],
       },
+      articleContent: ''
     };
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.form.content = this.articleContent;
+          this.form.created_at = new Date().toLocaleString();
+          this.form.last_modified_at = new Date().toLocaleString();
+          newArticle(this.form)
+            .then(
+              () => {
+                this.$message.success('发布成功!')
+                this.jump('/article/list')
+              }
+            )
         } else {
           console.log("error submit!!");
           return false;
@@ -71,16 +88,16 @@ export default {
       });
     },
     addTag() {
-      if (this.form.article_tags.includes(this.tag)) {
+      if (this.form.tags.includes(this.tag)) {
         this.$message.warning('已经添加过该标签了')
-      } else if (this.form.article_tags.length === 5) {
+      } else if (this.form.tags.length === 5) {
         this.$message.warning('至多添加5个标签')
       } else {
-        this.form.article_tags.push(this.tag)
+        this.form.tags.push(this.tag)
       }
     },
     removeTag(tag) {
-      this.form.article_tags.splice(this.form.article_tags.indexOf(tag), 1);
+      this.form.tags.splice(this.form.tags.indexOf(tag), 1);
     },
   },
 };

@@ -8,6 +8,7 @@
 
 <script>
 import ReviewItem from 'components/ReviewItem'
+import {statisticData} from '../../api/data'
 export default {
     name: 'home',
     components: {
@@ -23,7 +24,7 @@ export default {
     },
     methods: {
         requestInfo() {
-            this.$server.get('/info')
+            statisticData()
                 .then(
                     res => {
                         this.reviewList = res.data.data;

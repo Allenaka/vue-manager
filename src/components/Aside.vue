@@ -28,6 +28,7 @@
 
 <script>
 // import bus from '@/assets/js/utils/bus.js'
+import {navMenuData} from '../../api/data'
 export default {
     // props: {
     //     isCollapse: Boolean,
@@ -72,7 +73,7 @@ export default {
         console.log(key, keyPath);
       },
       requestMenuList() {
-        this.$server.get('/navMenu')
+        navMenuData()
             .then(
                 res => {
                     if(res.status === 200) {

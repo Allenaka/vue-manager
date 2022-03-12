@@ -121,8 +121,11 @@ export default {
         max-width: 273px;
       }
     }
-    .tox-tinymce {
+    > div:last-of-type {
       flex: 1;
+      .tox-tinymce {
+        height: 100% !important;
+      }
     }
   }
 }

@@ -5,12 +5,15 @@ export const articleListData = () => {
 export const newArticle = postData => {
     return http.post('/article/newArticle', postData)
 }
+export const deleteArticle = postData => {
+    return http.delete('/article/deleteArticle', postData)
+}
 export const navMenuData = () => {
     return http.get('/navMenu')
 }
 export const statisticData = () => {
     return http.get('/info')
 }
-export const deleteArticle = postData => {
-    return http.delete('/article/deleteArticle', postData)
+export const login = postData => {
+    return http.post('/users/login', postData)
 }

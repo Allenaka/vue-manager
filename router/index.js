@@ -81,8 +81,34 @@ const router = new VueRouter({
 })
 
 // router.beforeEach((to, from, next) => {
+//     // console.log(666, store.token)
+//     // store.commit('getToken');
+//     // let token = store.token
+//     // console.log(666, store.token)
+//     // if (!token && to.name !== 'login') {
+//     //   next('/login')
+//     // } else {
+//     //   next()
+//     // }
+//     console.log(localStorage.getItem('token'))
+//     if (!localStorage.getItem('token')) {
+//       next()
+//     console.log(2)
+//       next('/login')
+//     } else {
+//       next()
+//     }
 //     console.log(to, from)
-//     next()
+//   })
+// router.beforeEach((to, from, next) => {
+//     this.$store.commit('getToken');
+//     let token = this.$store.token
+//     console.log(666, this.$store.token)
+//     if (!token && to.name !== 'login') {
+//         next('/login')
+//     } else {
+//         next()
+//     }
 // })
 
 export default router

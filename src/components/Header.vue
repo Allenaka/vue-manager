@@ -11,7 +11,7 @@
                 </div>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item @click.native="jump('/center')">个人中心</el-dropdown-item>
-                    <el-dropdown-item divided>退出</el-dropdown-item>
+                    <el-dropdown-item divided @click.native="handleSignOut">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -53,6 +53,10 @@
                 this.$store.commit('toggleCollapse');
                 // bus.$emit('collapseChanged', this.isCollapse);
             },
+            handleSignOut() {
+                this.$store.commit('setToken', '');
+                this.jump('/login')
+            }
         }
     }
 </script>

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main'
+import store from '/store'
 
 Vue.use(VueRouter)
 
@@ -100,15 +101,15 @@ const router = new VueRouter({
 //     }
 //     console.log(to, from)
 //   })
-// router.beforeEach((to, from, next) => {
-//     this.$store.commit('getToken');
-//     let token = this.$store.token
-//     console.log(666, this.$store.token)
-//     if (!token && to.name !== 'login') {
-//         next('/login')
-//     } else {
-//         next()
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    store.commit('getToken');
+    let token = store.state.user.token
+    console.log(token)
+    if (!token && to.name !== 'login') {
+      next('/login')
+    } else {
+      next()
+    }
+})
 
 export default router

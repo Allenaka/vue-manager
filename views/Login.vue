@@ -31,7 +31,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="handleLogin">登录</el-button>
-        <el-button @click="handleRegister">去注册</el-button>
+        <!-- <el-button @click="handleRegister">去注册</el-button> -->
       </el-form-item>
     </el-form>
   </el-card>

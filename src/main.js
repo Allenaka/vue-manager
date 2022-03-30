@@ -19,12 +19,3 @@ new Vue({
   render: h => h(App),
 }).$mount('#app')
 
-router.beforeEach((to, from, next) => {
-  store.commit('getToken');
-  let token = store.state.user.token
-  if (!token && to.name !== 'login') {
-    next('/login')
-  } else {
-    next()
-  }
-})

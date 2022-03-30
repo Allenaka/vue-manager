@@ -11,9 +11,12 @@ export const deleteArticle = postData => {
 export const navMenuData = () => {
     return http.get('/navMenu')
 }
-export const statisticData = () => {
+export const reviewData = () => {
     return http.get('/info')
 }
 export const login = postData => {
     return http.post('/users/login', postData)
+}
+export const statisticData = () => {
+    return http.get('/statistic')
 }
